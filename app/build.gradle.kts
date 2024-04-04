@@ -68,6 +68,8 @@ dependencies {
 
     implementation (libs.gson)
 
+    implementation(libs.orbital)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

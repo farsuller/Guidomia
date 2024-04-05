@@ -7,7 +7,10 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import java.io.IOException
+import java.text.NumberFormat
+import java.util.Locale
 
+val format: NumberFormat = NumberFormat.getNumberInstance(Locale.US)
 
 fun getJsonDataFromAsset(
     context: Context,

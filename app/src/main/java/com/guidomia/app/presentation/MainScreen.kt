@@ -32,12 +32,11 @@ fun MainScreen() {
     var data by remember { mutableStateOf(emptyList<CarModel>()) }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     var padding by remember { mutableStateOf(PaddingValues()) }
-    val isCarLoaded = remember { mutableStateOf(false) }
+
     val context = LocalContext.current
 
     LaunchedEffect(key1 = data) {
         data = viewModel.getCarList(context = context)
-        isCarLoaded.value = data.isNotEmpty()
     }
 
     Scaffold(
@@ -56,9 +55,9 @@ fun MainScreen() {
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
-                item() {
+                item {
                     MainHeader()
-                    MainContent(cars = data, isCarsLoaded = isCarLoaded.value)
+                    MainContent(cars = data)
                     MainFooter()
                 }
             }

@@ -1,8 +1,5 @@
 package com.guidomia.app.model
 
-import androidx.compose.runtime.Immutable
-
-@Immutable
 data class CarModel(
     val consList: List<String>,
     val customerPrice: Double,

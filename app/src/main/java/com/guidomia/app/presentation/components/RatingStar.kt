@@ -10,9 +10,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.guidomia.app.R
 
-
 @Composable
-fun RatingStar(modifier: Modifier = Modifier,  starsCount :Int = 5) {
+fun RatingStar(modifier: Modifier = Modifier, starsCount: Int = 5) {
     Row(modifier = modifier) {
         repeat(starsCount) {
             Image(

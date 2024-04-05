@@ -39,14 +39,14 @@ import com.guidomia.app.model.Cars
 import com.guidomia.app.presentation.MainScreen
 import com.guidomia.app.ui.theme.GuidomiaTheme
 import com.guidomia.app.util.clickableWithoutRipple
+import com.guidomia.app.util.format
 import com.skydoves.orbital.Orbital
 import com.skydoves.orbital.animateBounds
-import com.skydoves.orbital.rememberMovableContentOf
-import java.text.NumberFormat
-import java.util.Locale
 
 @Composable
 fun CarDetailCard(car: CarModel) {
+
+    format.maximumFractionDigits = 1
 
     Column(
         modifier = Modifier
@@ -78,134 +78,7 @@ fun CarDetailCard(car: CarModel) {
                                 onClick = { expanded = !expanded },
                             ),
                     ) {
-                        val showWorkDetails = rememberMovableContentOf {
-                            Column(
-                                modifier = Modifier
-                                    .padding(vertical = 10.dp)
-                                    .padding(horizontal = if (expanded) 20.dp else 10.dp)
-                                    .animateBounds(
-                                        sizeAnimationSpec = tween(durationMillis = 300),
-                                        positionAnimationSpec = tween(durationMillis = 300),
-                                    ),
-                            ) {
-                                Text(
-                                    text = car.make,
-                                    fontFamily = MaterialTheme.typography.titleMedium.fontFamily,
-                                    fontSize = MaterialTheme.typography.titleMedium.fontSize,
-                                    color = MaterialTheme.colorScheme.tertiary,
-                                )
 
-                                val format = NumberFormat.getNumberInstance(Locale.US)
-                                format.maximumFractionDigits = 1
-
-                                Text(
-                                    text = "Price: ${format.format(car.marketPrice / 1000)}k",
-                                    fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
-                                    fontSize = MaterialTheme.typography.displayMedium.fontSize,
-                                    fontWeight = MaterialTheme.typography.displayMedium.fontWeight,
-                                    color = MaterialTheme.colorScheme.tertiary,
-                                )
-
-                                RatingStar(starsCount = car.rating)
-                            }
-                        }
-
-                        val showCarModel = rememberMovableContentOf {
-                            Image(
-                                modifier = Modifier
-                                    .padding(all = 10.dp)
-                                    .size(height = 67.dp, width = 119.dp),
-                                painter = painterResource(id = cars.find { it.model == car.model }!!.imagePath),
-                                contentDescription = "Car Model Image",
-
-                                )
-                        }
-
-                        val showCarModelDetails = rememberMovableContentOf {
-                            Column(
-                                modifier = Modifier
-                                    .padding(vertical = 10.dp)
-                                    .padding(horizontal = if (expanded) 20.dp else 10.dp)
-                                    .animateBounds(
-                                        sizeAnimationSpec = tween(durationMillis = 300),
-                                        positionAnimationSpec = tween(durationMillis = 300),
-                                    )
-                            ) {
-
-                                if (car.prosList.isNotEmpty()) {
-                                    Text(
-                                        text = "Pros :",
-                                        fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
-                                        fontSize = MaterialTheme.typography.displayMedium.fontSize,
-                                        fontWeight = MaterialTheme.typography.displayMedium.fontWeight,
-                                        color = MaterialTheme.colorScheme.tertiary,
-                                    )
-                                }
-
-                                car.prosList.forEach { pros ->
-
-                                    if (pros.toString().isNotBlank()) {
-
-                                        Row(
-                                            modifier = Modifier.padding(top = 15.dp),
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(8.dp)
-                                                    .clip(CircleShape)
-                                                    .background(color = MaterialTheme.colorScheme.primary)
-                                            )
-                                            Spacer(modifier = Modifier.width(8.dp))
-
-                                            Text(
-                                                text = pros.toString(),
-                                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-                                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                                color = Color.Black,
-                                            )
-                                        }
-                                    }
-                                }
-
-                                if (car.consList.isNotEmpty()) {
-                                    Text(
-                                        modifier = Modifier.padding(top = 15.dp),
-                                        text = "Cons :",
-                                        fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
-                                        fontSize = MaterialTheme.typography.displayMedium.fontSize,
-                                        fontWeight = MaterialTheme.typography.displayMedium.fontWeight,
-                                        color = MaterialTheme.colorScheme.tertiary,
-                                    )
-                                }
-
-                                car.consList.forEach { cons ->
-                                    if (cons.isNotBlank()) {
-
-                                        Row(
-                                            modifier = Modifier.padding(top = 15.dp),
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(8.dp)
-                                                    .clip(CircleShape)
-                                                    .background(color = MaterialTheme.colorScheme.primary)
-                                            )
-                                            Spacer(modifier = Modifier.width(8.dp))
-
-                                            Text(
-                                                text = cons,
-                                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-                                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                                color = Color.Black,
-                                            )
-                                        }
-                                    }
-
-                                }
-                            }
-                        }
 
                         Column(
                             modifier = Modifier.fillMaxWidth(),
@@ -215,26 +88,136 @@ fun CarDetailCard(car: CarModel) {
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.Top
                             ) {
-                                showCarModel()
-                                showWorkDetails()
+                                Image(
+                                    modifier = Modifier
+                                        .padding(all = 10.dp)
+                                        .size(height = 67.dp, width = 119.dp),
+                                    painter = painterResource(id = cars.find { it.model == car.model || it.make == car.make }!!.imagePath),
+                                    contentDescription = "Car Model Image",
+
+                                    )
+
+                                Column(
+                                    modifier = Modifier
+                                        .padding(vertical = 10.dp)
+                                        .padding(horizontal = if (expanded) 20.dp else 10.dp)
+                                        .animateBounds(
+                                            sizeAnimationSpec = tween(durationMillis = 300),
+                                            positionAnimationSpec = tween(durationMillis = 300),
+                                        ),
+                                ) {
+                                    Text(
+                                        text = car.make,
+                                        fontFamily = MaterialTheme.typography.titleMedium.fontFamily,
+                                        fontSize = MaterialTheme.typography.titleMedium.fontSize,
+                                        color = MaterialTheme.colorScheme.tertiary,
+                                    )
+
+                                    Text(
+                                        text = "Price: ${format.format(car.marketPrice / 1000)}k",
+                                        fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
+                                        fontSize = MaterialTheme.typography.displayMedium.fontSize,
+                                        fontWeight = MaterialTheme.typography.displayMedium.fontWeight,
+                                        color = MaterialTheme.colorScheme.tertiary,
+                                    )
+
+                                    RatingStar(starsCount = car.rating)
+                                }
                             }
 
                             if (expanded) {
-                                showCarModelDetails()
+                                Column(
+                                    modifier = Modifier
+                                        .padding(vertical = 10.dp)
+                                        .padding(horizontal = if (expanded) 20.dp else 10.dp)
+                                        .animateBounds(
+                                            sizeAnimationSpec = tween(durationMillis = 300),
+                                            positionAnimationSpec = tween(durationMillis = 300),
+                                        )
+                                ) {
+
+                                    if (car.prosList.isNotEmpty()) {
+                                        Text(
+                                            text = "Pros :",
+                                            fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
+                                            fontSize = MaterialTheme.typography.displayMedium.fontSize,
+                                            fontWeight = MaterialTheme.typography.displayMedium.fontWeight,
+                                            color = MaterialTheme.colorScheme.tertiary,
+                                        )
+                                    }
+
+                                    car.prosList.forEach { pros ->
+
+                                        if (pros.toString().isNotBlank()) {
+
+                                            Row(
+                                                modifier = Modifier.padding(top = 15.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(8.dp)
+                                                        .clip(CircleShape)
+                                                        .background(color = MaterialTheme.colorScheme.primary)
+                                                )
+                                                Spacer(modifier = Modifier.width(8.dp))
+
+                                                Text(
+                                                    text = pros.toString(),
+                                                    fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
+                                                    fontSize = MaterialTheme.typography.displayMedium.fontSize,
+                                                    fontWeight = MaterialTheme.typography.displayMedium.fontWeight,
+                                                    color = Color.Black,
+                                                )
+                                            }
+                                        }
+                                    }
+
+                                    if (car.consList.isNotEmpty()) {
+                                        Text(
+                                            modifier = Modifier.padding(top = 15.dp),
+                                            text = "Cons :",
+                                            fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
+                                            fontSize = MaterialTheme.typography.displayMedium.fontSize,
+                                            fontWeight = MaterialTheme.typography.displayMedium.fontWeight,
+                                            color = MaterialTheme.colorScheme.tertiary,
+                                        )
+                                    }
+
+                                    car.consList.forEach { cons ->
+                                        if (cons.isNotBlank()) {
+
+                                            Row(
+                                                modifier = Modifier.padding(top = 15.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(8.dp)
+                                                        .clip(CircleShape)
+                                                        .background(color = MaterialTheme.colorScheme.primary)
+                                                )
+                                                Spacer(modifier = Modifier.width(8.dp))
+
+                                                Text(
+                                                    text = cons,
+                                                    fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
+                                                    fontSize = MaterialTheme.typography.displayMedium.fontSize,
+                                                    fontWeight = MaterialTheme.typography.displayMedium.fontWeight,
+                                                    color = Color.Black,
+                                                )
+                                            }
+                                        }
+
+                                    }
+                                }
                             }
                         }
-
                     }
                 }
             }
         }
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp, start = 10.dp, end = 10.dp, bottom = 10.dp)
-                .background(color = MaterialTheme.colorScheme.primary)
-                .size(4.dp)
-        )
+
     }
 }
 

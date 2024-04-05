@@ -11,7 +11,7 @@ import com.guidomia.app.presentation.components.CarDetailCard
 import com.guidomia.app.presentation.components.FilterTextFields
 
 @Composable
-fun MainContent(cars: List<CarModel>) {
+fun MainContent(cars: List<CarModel>, isCarsLoaded:Boolean = false) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.Start,
@@ -20,8 +20,10 @@ fun MainContent(cars: List<CarModel>) {
 
         FilterTextFields()
 
-        repeat(cars.size){c->
-            CarDetailCard(car = cars[c])
+        if(isCarsLoaded){
+            cars.forEach { c->
+                CarDetailCard(c)
+            }
         }
     }
 }

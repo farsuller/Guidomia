@@ -22,7 +22,7 @@ import com.guidomia.app.R
 import com.guidomia.app.model.Cars
 
 @Composable
-fun Header() {
+fun MainHeader() {
     Box(
         modifier = Modifier
             .fillMaxWidth()

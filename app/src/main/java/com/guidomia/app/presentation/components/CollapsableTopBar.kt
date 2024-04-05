@@ -30,8 +30,7 @@ internal fun CollapsableTopBar(scrollBehavior: TopAppBarScrollBehavior) {
             Text(
                 modifier = Modifier.padding(end = 10.dp),
                 text = stringResource(id = R.string.app_name),
-                fontFamily = MaterialTheme.typography.headlineLarge.fontFamily,
-                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.surface,
             )
         },

@@ -24,6 +24,7 @@ import com.guidomia.app.MainViewModel
 import com.guidomia.app.model.CarModel
 import com.guidomia.app.presentation.components.CollapsableTopBar
 import com.guidomia.app.ui.theme.GuidomiaTheme
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,8 +36,12 @@ fun MainScreen() {
 
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = data) {
-        data = viewModel.getCarList(context = context)
+    LaunchedEffect(key1 = Unit) {
+        viewModel.loadCarsFromJsonFile(context = context, fileName = "car_list.json")
+
+        viewModel.carList.collectLatest {
+            data = it
+        }
     }
 
     Scaffold(

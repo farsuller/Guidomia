@@ -33,10 +33,7 @@ fun MainContent(cars: List<CarModel>) {
         } else {
             cars.filter { car ->
                 (makeFilter.isBlank() || car.make.contains(makeFilter, ignoreCase = true)) &&
-                        (modelFilter.isBlank() || car.model.contains(
-                            modelFilter,
-                            ignoreCase = true
-                        ))
+                        (modelFilter.isBlank() || car.model.contains(modelFilter, ignoreCase = true))
             }
         }
     } else {

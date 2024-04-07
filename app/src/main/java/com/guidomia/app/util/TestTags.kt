@@ -2,6 +2,8 @@ package com.guidomia.app.util
 
 object TestTags {
 
+    const val MAIN_SCREEN = "MAIN_SCREEN"
+
     const val CAR_MAKE_FILTER = "CAR_MAKE_FILTER"
     const val CAR_MODEL_FILTER = "CAR_MODEL_FILTER"
 

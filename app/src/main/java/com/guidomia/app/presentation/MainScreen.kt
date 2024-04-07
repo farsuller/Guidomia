@@ -18,12 +18,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.guidomia.app.MainViewModel
 import com.guidomia.app.model.CarModel
 import com.guidomia.app.presentation.components.CollapsableTopBar
 import com.guidomia.app.ui.theme.GuidomiaTheme
+import com.guidomia.app.util.TestTags.MAIN_SCREEN
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,7 +58,8 @@ fun MainScreen() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = padding.calculateTopPadding())
-                    .padding(bottom = padding.calculateBottomPadding()),
+                    .padding(bottom = padding.calculateBottomPadding())
+                    .testTag(MAIN_SCREEN),
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {

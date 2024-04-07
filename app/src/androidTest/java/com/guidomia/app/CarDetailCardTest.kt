@@ -34,7 +34,7 @@ class CarDetailCardTest {
     )
 
     @Test
-    fun onCarDetailDisplayed() {
+    fun testCarDetailDisplayed() {
 
         composeTestRule.setContent {
             GuidomiaTheme {
@@ -57,7 +57,7 @@ class CarDetailCardTest {
 
 
     @Test
-    fun onCarDetailClicked() {
+    fun testCarDetailClicked() {
         composeTestRule.setContent {
             GuidomiaTheme {
                 CarDetailCard(testCarModel)

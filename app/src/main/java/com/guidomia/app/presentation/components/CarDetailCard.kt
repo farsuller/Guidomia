@@ -31,13 +31,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.guidomia.app.R
 import com.guidomia.app.model.CarModel
 import com.guidomia.app.model.Cars
-import com.guidomia.app.presentation.MainScreen
 import com.guidomia.app.ui.theme.GuidomiaTheme
+import com.guidomia.app.util.TestTags.CAR_DETAIL
+import com.guidomia.app.util.TestTags.CAR_IMAGE
+import com.guidomia.app.util.TestTags.CAR_MAKE
+import com.guidomia.app.util.TestTags.CAR_PRICE
+import com.guidomia.app.util.TestTags.CAR_PROS_CONS
+import com.guidomia.app.util.TestTags.CAR_RATE
 import com.guidomia.app.util.clickableWithoutRipple
 import com.guidomia.app.util.format
 import com.skydoves.orbital.Orbital
@@ -51,6 +58,7 @@ fun CarDetailCard(car: CarModel) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
+        //.testTag(CAR_DETAIL)
     ) {
         Box(
             modifier = Modifier
@@ -76,7 +84,8 @@ fun CarDetailCard(car: CarModel) {
                             .clickableWithoutRipple(
                                 interactionSource = MutableInteractionSource(),
                                 onClick = { expanded = !expanded },
-                            ),
+                            )
+                            .testTag(CAR_DETAIL),
                     ) {
 
 
@@ -91,8 +100,12 @@ fun CarDetailCard(car: CarModel) {
                                 Image(
                                     modifier = Modifier
                                         .padding(all = 10.dp)
-                                        .size(height = 67.dp, width = 119.dp),
-                                    painter = painterResource(id = cars.find { it.model == car.model || it.make == car.make }!!.imagePath),
+                                        .size(height = 67.dp, width = 119.dp)
+                                        .testTag(CAR_IMAGE),
+                                    painter = painterResource(
+                                        id = cars.find { it.model == car.model || it.make == car.make }?.imagePath
+                                            ?: R.drawable.tacoma
+                                    ),
                                     contentDescription = "Car Model Image",
 
                                     )
@@ -107,6 +120,7 @@ fun CarDetailCard(car: CarModel) {
                                         ),
                                 ) {
                                     Text(
+                                        modifier = Modifier.testTag(CAR_MAKE),
                                         text = car.make,
                                         fontFamily = MaterialTheme.typography.titleMedium.fontFamily,
                                         fontSize = MaterialTheme.typography.titleMedium.fontSize,
@@ -114,6 +128,7 @@ fun CarDetailCard(car: CarModel) {
                                     )
 
                                     Text(
+                                        modifier = Modifier.testTag(CAR_PRICE),
                                         text = "Price: ${format.format(car.marketPrice / 1000)}k",
                                         fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
                                         fontSize = MaterialTheme.typography.displayMedium.fontSize,
@@ -121,7 +136,10 @@ fun CarDetailCard(car: CarModel) {
                                         color = MaterialTheme.colorScheme.tertiary,
                                     )
 
-                                    RatingStar(starsCount = car.rating)
+                                    RatingStar(
+                                        modifier = Modifier.testTag(CAR_RATE),
+                                        starsCount = car.rating
+                                    )
                                 }
                             }
 
@@ -134,6 +152,7 @@ fun CarDetailCard(car: CarModel) {
                                             sizeAnimationSpec = tween(durationMillis = 300),
                                             positionAnimationSpec = tween(durationMillis = 300),
                                         )
+                                        .testTag(CAR_PROS_CONS)
                                 ) {
 
                                     if (car.prosList.isNotEmpty()) {
@@ -151,7 +170,8 @@ fun CarDetailCard(car: CarModel) {
                                         if (pros.toString().isNotBlank()) {
 
                                             Row(
-                                                modifier = Modifier.padding(top = 15.dp),
+                                                modifier = Modifier
+                                                    .padding(top = 15.dp),
                                                 verticalAlignment = Alignment.CenterVertically
                                             ) {
                                                 Box(
@@ -175,7 +195,8 @@ fun CarDetailCard(car: CarModel) {
 
                                     if (car.consList.isNotEmpty()) {
                                         Text(
-                                            modifier = Modifier.padding(top = 15.dp),
+                                            modifier = Modifier
+                                                .padding(top = 15.dp),
                                             text = "Cons :",
                                             fontFamily = MaterialTheme.typography.displayMedium.fontFamily,
                                             fontSize = MaterialTheme.typography.displayMedium.fontSize,
@@ -223,8 +244,18 @@ fun CarDetailCard(car: CarModel) {
 
 @Preview(showBackground = true)
 @Composable
-fun MainContentPreview() {
+fun CarDetailCardPreview() {
     GuidomiaTheme {
-        MainScreen()
+        CarDetailCard(
+            CarModel(
+                consList = listOf("Limited color options", "Average fuel efficiency"),
+                customerPrice = 35000.0,
+                make = "Toyota",
+                marketPrice = 38000.0,
+                model = "Camry",
+                prosList = listOf("Reliable engine", "Comfortable ride", "Spacious interior"),
+                rating = 4
+            )
+        )
     }
 }

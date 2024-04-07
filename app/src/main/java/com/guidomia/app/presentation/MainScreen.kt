@@ -73,7 +73,7 @@ fun MainScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun MainContentPreview() {
+fun MainScreenPreview() {
     GuidomiaTheme {
         MainScreen()
     }
